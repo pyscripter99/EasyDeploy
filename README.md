@@ -5,6 +5,7 @@ Easy Deploy is a deployment utility designed to be simple, and easy. This projec
 ## Usage
 
 ### Help screen
+
 ```
 A deployment utility and command-line interface for deploying
 github projects with ease.
