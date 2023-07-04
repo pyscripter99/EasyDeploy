@@ -18,6 +18,10 @@ func main() {
 	defer logger.Sync()
 	suger := logger.Sugar()
 
+	// Connect database
+	server.ConnectDatabase()
+	suger.Info("Connected database")
+
 	// Load configuration file
 	b, err := os.ReadFile("config.yaml")
 	if err != nil {
@@ -29,10 +33,6 @@ func main() {
 	}
 	suger.Info("Loaded configuration file", server.Configuration)
 	suger.Info("Loaded project: ", server.Configuration.Name)
-
-	// Connect database
-	server.ConnectDatabase()
-	suger.Info("Connected database")
 
 	// Start web server
 	suger.Info("Starting web server")

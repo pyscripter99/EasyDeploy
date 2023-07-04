@@ -18,17 +18,23 @@ var stopCmd = &cobra.Command{
 	Use:   "stop [process name]",
 	Short: "Runs stop action",
 	Long: `Runs the stop action on the agent using the specified server.
-This will start the specified process, or all if none specified`,
+	This will start the specified process, or all if none specified`,
 	Run: func(cmd *cobra.Command, args []string) {
-		server, err := cmd.Flags().GetString("server")
-		if err != nil {
-			panic("Error parsing server. " + err.Error())
-		}
+		server := GetServer(cmd)
+		auth := GetAuth(cmd)
 		process := ""
 		if len(args) > 0 {
 			process = args[0]
 		}
-		httpResp, err := http.Get(server + "/stop/" + process)
+
+		req, err := http.NewRequest("GET", server+"/stop/"+process, nil)
+		if err != nil {
+			panic("Could not create http request. " + err.Error())
+		}
+		req.Header.Add("Authorization", auth)
+		client := &http.Client{}
+
+		httpResp, err := client.Do(req)
 		if err != nil {
 			panic("Error running stop. " + err.Error())
 		}
@@ -37,14 +43,16 @@ This will start the specified process, or all if none specified`,
 			panic("Error reading response body. " + err.Error())
 		}
 
+		CheckError(textResp)
+
 		if process == "" {
 
-			var resp []types.WebProcess
+			var resp types.WebProcessListOrError
 			if err := json.Unmarshal(textResp, &resp); err != nil {
 				panic("Error unpacking values. " + err.Error())
 			}
 
-			for _, proc := range resp {
+			for _, proc := range resp.Processes {
 				fmt.Println("Stopped: " + proc.Name)
 			}
 		} else {

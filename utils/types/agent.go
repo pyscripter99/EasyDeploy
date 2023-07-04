@@ -19,3 +19,8 @@ type WebProcessOrError struct {
 	Process WebProcess `json:"process"`
 	WebError
 }
+
+type WebProcessListOrError struct {
+	Processes []WebProcess `json:"processes"`
+	WebError
+}

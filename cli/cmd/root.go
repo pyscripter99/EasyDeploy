@@ -35,8 +35,5 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringP("server", "s", "http://127.0.0.1:8900", "Agent root url")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringP("auth-token", "t", "", "Authorization token for server")
 }

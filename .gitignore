@@ -1,3 +1,6 @@
 /config.yaml
 /deploy.db
 /go.sum
+deploy-agent
+deploy-cli
+.deploy

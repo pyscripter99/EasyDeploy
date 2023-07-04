@@ -15,16 +15,26 @@ import (
 
 // deployCmd represents the deploy command
 var deployCmd = &cobra.Command{
-	Use:   "deploy",
+	Use:   "deploy [process name]",
 	Short: "Runs deploy action",
 	Long: `Runs the deploy action on the agent specified server.
 This will stop all services, pull the latest changes, and start them up again`,
 	Run: func(cmd *cobra.Command, args []string) {
-		server, err := cmd.Flags().GetString("server")
-		if err != nil {
-			panic("Error parsing server. " + err.Error())
+		server := GetServer(cmd)
+		auth := GetAuth(cmd)
+		process := ""
+		if len(args) > 0 {
+			process = args[0]
 		}
-		httpResp, err := http.Get(server + "/deploy")
+
+		req, err := http.NewRequest("GET", server+"/deploy/"+process, nil)
+		if err != nil {
+			panic("Could not create http request. " + err.Error())
+		}
+		req.Header.Add("Authorization", auth)
+		client := &http.Client{}
+
+		httpResp, err := client.Do(req)
 		if err != nil {
 			panic("Error running deploy. " + err.Error())
 		}
@@ -32,15 +42,33 @@ This will stop all services, pull the latest changes, and start them up again`,
 		if err != nil {
 			panic("Error reading response body. " + err.Error())
 		}
-		var resp types.WebError
-		if err := json.Unmarshal(textResp, &resp); err != nil {
-			panic("Error unpacking values. " + err.Error())
-		}
 
-		if resp.Error {
-			fmt.Println("Error: " + resp.Message)
+		CheckError(textResp)
+
+		if process == "" {
+			var resp types.WebProcessListOrError
+			if err := json.Unmarshal(textResp, &resp); err != nil {
+				panic("Error unpacking values. " + err.Error())
+			}
+
+			if resp.Error {
+				fmt.Println("Error: " + resp.Message)
+			} else {
+				for _, proc := range resp.Processes {
+					fmt.Println("Updated: " + proc.Name)
+				}
+			}
 		} else {
-			fmt.Println("Done")
+			var resp types.WebProcessOrError
+			if err := json.Unmarshal(textResp, &resp); err != nil {
+				panic("Error unpacking values. " + err.Error())
+			}
+
+			if resp.Error {
+				fmt.Println("Error: " + resp.Message)
+			} else {
+				fmt.Println("Updated: " + resp.Process.Name)
+			}
 		}
 	},
 }

@@ -17,4 +17,5 @@ type ConfigProcess struct {
 type Configuration struct {
 	Name      string          `yaml:"name"`
 	Processes []ConfigProcess `yaml:"processes"`
+	AuthToken string          `yaml:"auth_token"`
 }
