@@ -48,17 +48,17 @@ func GetAuth(cmd *cobra.Command) string {
 func GetServer(cmd *cobra.Command) string {
 	var server string
 
+	server, err := cmd.Flags().GetString("server")
+	if err != nil {
+		panic("Error parsing server. " + err.Error())
+	}
+
 	profile, err := GetProfile()
 	if err != nil {
 		panic("Error loading profile: " + err.Error())
 	}
 
-	if profile.Server == "" {
-		server, err = cmd.Flags().GetString("server")
-		if err != nil {
-			panic("Error parsing server. " + err.Error())
-		}
-	} else {
+	if server == "" {
 		server = profile.Server
 	}
 
