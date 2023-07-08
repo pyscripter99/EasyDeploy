@@ -1,3 +1,5 @@
+![Easy Deploy banner](/Easy%20Deploy.png)
+
 # EasyDeploy
 
 Easy Deploy is a deployment utility designed to be simple, and easy. This project was built to make managing and hosting projects on a remote machine easy, and as simple as possible. It relies on GitHub for hosting the latest deployments/updates.
