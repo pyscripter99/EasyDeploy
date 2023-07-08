@@ -1,6 +1,8 @@
 /config.yaml
 /deploy.db
-deploy-agent
-deploy-cli
+deploy-agent*
+deploy-cli*
+dist/*
+dist/
 .deploy
 build.sh
