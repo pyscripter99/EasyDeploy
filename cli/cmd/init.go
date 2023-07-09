@@ -15,7 +15,7 @@ import (
 
 // Example configuration
 var exampleConfiguration = types.Configuration{Name: "example-project", Processes: []types.ConfigProcess{
-	{Name: "hello-console", WorkingDirectory: ".", GitUrl: "https://github.com/example/repo.git", GitBranch: "production", Commands: types.ConfigProcessCommands{
+	{Name: "hello-console", WorkingDirectory: ".", GitUrl: "https://github.com/example/repo.git", GitBranch: "production", GitUsername: "github username (only if repo is private)", GitToken: "github PAC token (only if repo is private)", Commands: types.ConfigProcessCommands{
 		Start:  []string{"echo \"Hello World!\""},
 		Deploy: []string{"echo \"Apply any changes you need after updating\""},
 		Stop:   []string{"echo \"Stopping\""},

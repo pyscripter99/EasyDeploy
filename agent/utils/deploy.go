@@ -3,6 +3,8 @@ package utils
 import (
 	"easy-deploy/utils/types"
 
+	"github.com/go-git/go-git/v5/plumbing/transport/http"
+
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 )
@@ -19,8 +21,18 @@ func Deploy(process types.ConfigProcess) (commit string, err error) {
 		return "", err
 	}
 
-	if err := work.Pull(&git.PullOptions{ReferenceName: plumbing.ReferenceName("refs/heads/" + process.GitBranch)}); err != nil {
-		return "", err
+	// Check for authentication
+	username := process.GitUsername
+	password := process.GitToken
+
+	if username == "" {
+		if err := work.Pull(&git.PullOptions{ReferenceName: plumbing.ReferenceName("refs/heads/" + process.GitBranch)}); err != nil {
+			return "", err
+		}
+	} else {
+		if err := work.Pull(&git.PullOptions{ReferenceName: plumbing.ReferenceName("refs/heads/" + process.GitBranch), Auth: &http.BasicAuth{Username: username, Password: password}}); err != nil {
+			return "", err
+		}
 	}
 
 	// Run deploy script

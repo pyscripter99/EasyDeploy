@@ -11,6 +11,8 @@ type ConfigProcess struct {
 	WorkingDirectory string                `yaml:"working_directory"`
 	GitUrl           string                `yaml:"git_url"`
 	GitBranch        string                `yaml:"git_branch"`
+	GitUsername      string                `yaml:"git_username"`
+	GitToken         string                `yaml:"git_token"`
 	Commands         ConfigProcessCommands `yaml:"commands"`
 }
 
