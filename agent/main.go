@@ -5,11 +5,9 @@ package main
 
 import (
 	"easy-deploy/agent/server"
-	"easy-deploy/utils/types"
-	"os"
+	"easy-deploy/agent/utils"
 
 	"go.uber.org/zap"
-	"gopkg.in/yaml.v3"
 )
 
 func main() {
@@ -17,16 +15,16 @@ func main() {
 	logger := zap.Must(zap.NewDevelopment())
 	defer logger.Sync()
 	suger := logger.Sugar()
+	zap.ReplaceGlobals(logger)
 
 	// Load configuration file
-	b, err := os.ReadFile("config.yaml")
+	config, err := utils.LoadConfiguration()
 	if err != nil {
-		suger.Panic("No configuration file found. Generate the configuration file using the CLI")
+		suger.Fatal("Failed to load config. " + err.Error())
 	}
-	server.Configuration = types.Configuration{}
-	if err := yaml.Unmarshal(b, &server.Configuration); err != nil {
-		suger.Panic("Error reading configuration file")
-	}
+
+	server.Configuration = config
+
 	suger.Info("Loaded configuration file", server.Configuration)
 	suger.Info("Loaded project: ", server.Configuration.Name)
 

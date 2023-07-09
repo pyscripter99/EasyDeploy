@@ -129,6 +129,17 @@ func StartServer(logger *zap.Logger) {
 		ctx.JSON(http.StatusOK, types.WebProcessOrError{Process: utils.StartProcess(process)})
 	})
 
+	r.GET("/reload/config", func(ctx *gin.Context) {
+		config, err := utils.LoadConfiguration()
+		if err != nil {
+			zap.L().Error("Failed to load config. " + err.Error())
+			ctx.JSON(http.StatusInternalServerError, types.WebError{Error: true, Message: err.Error()})
+		}
+
+		Configuration = config
+		ctx.JSON(http.StatusOK, types.WebError{})
+	})
+
 	// Run the server
 	r.Run(":8900")
 }
