@@ -58,7 +58,7 @@ func GetServer(cmd *cobra.Command) string {
 		panic("Error loading profile: " + err.Error())
 	}
 
-	if server == "" {
+	if server == "http://127.0.0.1:8900" {
 		server = profile.Server
 	}
 
