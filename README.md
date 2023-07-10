@@ -34,28 +34,28 @@ Use "easy-deploy [command] --help" for more information about a command.
 *Help screen from deploy-cli*
 
 ### Setting up server configuration
-``` bash
+``` shell
 $ deploy-cli init
 ```
 
 This will run a wizard for generating the configuration file `config.yaml`
 
 ### Creating a CLI profile
-``` bash
+``` shell
 $ deploy-cli cliConf
 ```
 
 This will run a wizard that removes the repetitive process of supplying the authorization token and server ip address by saving a profile to the current directory. `.deploy` will be generated in the current directory
 
 ### Starting and stopping deployments and services
-``` bash
+``` shell
 $ deploy-cli start [process name]
 $ deploy-cli stop [process name]
 ```
 The commands respectively will either start or stop the specified process, or all if not set by running the command(s) found in the Easy Deploy configuration (`config.yaml`)
 
 ### Upgrading/deploying
-``` bash
+``` shell
 $ deploy-cli deploy [process name]
 ```
 
