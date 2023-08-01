@@ -60,3 +60,8 @@ $ deploy-cli deploy [process name]
 ```
 
 This command will upgrade/deploy all/the specified processes by stopping the specified process (if any), and pulling the latest change from github with the branch specified in the servers `config.yaml>[process]>git_branch`, typically `production`, then running any deploy commands. (like installing new packages)
+
+## Roadmap
+* Generate authentication key from the CLI
+* Better errors (deploy error, server error, client error, etc), to replace server error/fatal
+* Add option for public/private repository
