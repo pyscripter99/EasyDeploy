@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
@@ -106,6 +107,17 @@ Optionally will run a wizard to help configure the configuration files`,
 				break
 			}
 		}
+
+		// Generate and add token
+		token := uuid.New().String()
+		if token == "" {
+			fmt.Println("Error generating authentication token")
+			os.Exit(1)
+		}
+		configuration.AuthToken = token
+		fmt.Printf("Your authentication token is: '%s'\n IMPORTANT: Keep this private and in a safe location, without it you will not be able to send commands to EasyDeploy\n", token)
+
+		// Save configuration
 		if err := writeConfiguration(configuration); err != nil {
 			panic("Error saving configuration")
 		}
