@@ -51,11 +51,19 @@ Optionally will run a wizard to help configure the configuration files`,
 			workingDirectory := ""
 			gitUrl := ""
 			gitBranch := ""
+			gitUsername := ""
+			gitPassword := ""
 			commands := types.ConfigProcessCommands{}
 			another := false
+			privacy := ""
 			survey.AskOne(&survey.Input{Message: "Process name:"}, &processName)
 			survey.AskOne(&survey.Input{Message: "Process working directory:"}, &workingDirectory)
 			survey.AskOne(&survey.Input{Message: "Process git url:"}, &gitUrl)
+			survey.AskOne(&survey.Select{Message: "Choose your repository privacy", Options: []string{"private", "public"}}, &privacy)
+			if privacy == "private" {
+				survey.AskOne(&survey.Input{Message: "Git username: "}, &gitUsername)
+				survey.AskOne(&survey.Input{Message: "Git password/token: "}, &gitPassword)
+			}
 			survey.AskOne(&survey.Input{Message: "Process git branch:"}, &gitBranch)
 			fmt.Println("Enter start commands:")
 			for {
@@ -89,6 +97,10 @@ Optionally will run a wizard to help configure the configuration files`,
 			}
 			survey.AskOne(&survey.Confirm{Message: "Add another process?", Default: false}, &another)
 			process := types.ConfigProcess{Name: processName, WorkingDirectory: workingDirectory, GitUrl: gitUrl, GitBranch: gitBranch, Commands: commands}
+			if privacy == "private" {
+				process.GitUsername = gitUsername
+				process.GitToken = gitPassword
+			}
 			configuration.Processes = append(configuration.Processes, process)
 			if !another {
 				break
