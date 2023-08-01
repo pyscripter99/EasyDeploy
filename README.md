@@ -31,38 +31,45 @@ Flags:
 
 Use "easy-deploy [command] --help" for more information about a command.
 ```
-*Help screen from deploy-cli*
+
+_Help screen from deploy-cli_
 
 ### Setting up server configuration
-``` shell
+
+```shell
 $ deploy-cli init
 ```
 
 This will run a wizard for generating the configuration file `config.yaml`
 
 ### Creating a CLI profile
-``` shell
+
+```shell
 $ deploy-cli cliConf
 ```
 
 This will run a wizard that removes the repetitive process of supplying the authorization token and server ip address by saving a profile to the current directory. `.deploy` will be generated in the current directory
 
 ### Starting and stopping deployments and services
-``` shell
+
+```shell
 $ deploy-cli start [process name]
 $ deploy-cli stop [process name]
 ```
+
 The commands respectively will either start or stop the specified process, or all if not set by running the command(s) found in the Easy Deploy configuration (`config.yaml`)
 
 ### Upgrading/deploying
-``` shell
+
+```shell
 $ deploy-cli deploy [process name]
 ```
 
 This command will upgrade/deploy all/the specified processes by stopping the specified process (if any), and pulling the latest change from github with the branch specified in the servers `config.yaml>[process]>git_branch`, typically `production`, then running any deploy commands. (like installing new packages)
 
 ## Roadmap
-* Generate authentication key from the CLI
-* Better errors (deploy error, server error, client error, etc), to replace server error/fatal
-* Add option for public/private repository
-* Add CLI command `push` to handle switching branches, commiting, etc
+
+-   Generate authentication key from the CLI
+-   Better errors (deploy error, server error, client error, etc), to replace server error/fatal
+-   Add option for public/private repository
+-   Add CLI command `push` to handle switching branches, commiting, etc
