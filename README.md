@@ -65,3 +65,4 @@ This command will upgrade/deploy all/the specified processes by stopping the spe
 * Generate authentication key from the CLI
 * Better errors (deploy error, server error, client error, etc), to replace server error/fatal
 * Add option for public/private repository
+* Add CLI command `push` to handle switching branches, commiting, etc
