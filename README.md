@@ -70,4 +70,4 @@ This command will upgrade/deploy all/the specified processes by stopping the spe
 ## Roadmap
 
 -   Better errors (deploy error, server error, client error, etc), to replace server error/fatal
--   Add CLI command `push` to handle switching branches, commiting, etc
+-   Add CLI command `push` to handle switching branches, committing, etc
